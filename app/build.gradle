@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'CustomPlugin'
+
+CustomConfig {
+    enable = true
+}
+
+apply from: "greeting.gradle"
+greeting {
+    message = 'Hi'
+    greeter = 'Gradle'
+}
+
+android {
+    println("*** Android Extension start")
+    namespace "xx.xxx.xxx"
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "xx.xxx.xxx"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+gradle.taskGraph.beforeTask { task ->
+
+    println("--- task name ${task.name} ${task.description}")
+
+    task.inputs.files.each { fileTemp -> println 'input file:' + fileTemp.absolutePath
+    }
+
+    println '---------------------------------------------------'
+    task.outputs.files.each { fileTemp -> println 'output file:' + fileTemp.absolutePath
+    }
+
+}
+
+dependencies {
+
+    implementation "androidx.appcompat:appcompat:${Env.AppCompat}"
+    implementation 'com.google.android.material:material:1.2.0'
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+}

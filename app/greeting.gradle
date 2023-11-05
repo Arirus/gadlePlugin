@@ -1,0 +1,33 @@
+interface GreetingPluginExtension {
+    Property<String> getMessage()
+    Property<String> getGreeter()
+}
+
+class GreetingTask extends DefaultTask{
+    @Input
+    GreetingPluginExtension      extension
+
+    @TaskAction
+    def greet(){
+        println 'Hello from the GreetingPlugin'
+        println "${extension.message.get()} from ${extension.greeter.get()}"
+    }
+}
+
+class GreetingPlugin implements Plugin<Project> {
+    void apply(Project project) {
+        def extension = project.extensions.create('greeting', GreetingPluginExtension)
+        project.tasks.register("hello",GreetingTask){
+            it.description = "测试用"
+            it.extension = extension
+        }
+    }
+}
+
+// Apply the plugin
+//apply plugin: DependencyVersionPlugin
+apply plugin: GreetingPlugin
+//greeting {
+//    message = 'Hi'
+//    greeter = 'Gradle'
+//}

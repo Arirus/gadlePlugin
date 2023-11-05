@@ -1,0 +1,31 @@
+rootProject.name = "Plugin"
+include ':app'
+include ':plugin'
+
+gradle.addBuildListener(new BuildListener(){
+
+    @Override
+    void beforeSettings(Settings settings) {
+        println("*** settings beforeSettings $settings")
+    }
+
+    @Override
+    void settingsEvaluated(Settings settings) {
+        println("*** settings settingsEvaluated $settings")
+    }
+
+    @Override
+    void projectsLoaded(Gradle gradle) {
+        println("*** settings projectsLoaded $gradle")
+    }
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {
+        println("*** settings projectsEvaluated $gradle")
+    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+        println("*** settings buildFinished ${result.getAction()}")
+    }
+})

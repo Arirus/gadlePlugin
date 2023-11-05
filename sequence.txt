@@ -1,0 +1,76 @@
+*** settings settingsEvaluated settings 'Plugin'
+*** settings projectsLoaded build 'Plugin'
+
+> Configure project :buildSrc
+WARNING: Unsupported Kotlin plugin version.
+The `embedded-kotlin` and `kotlin-dsl` plugins rely on features of Kotlin `1.4.31` that might work differently than in the requested version `1.5.30`.
+*** buildSrc afterProject  project ':buildSrc'
+*** buildSrc afterEvaluate  project ':buildSrc'
+
+> Task :buildSrc:compileKotlin UP-TO-DATE
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+> Task :buildSrc:processResources UP-TO-DATE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+> Task :buildSrc:assemble UP-TO-DATE
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:pluginUnderTestMetadata UP-TO-DATE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:validatePlugins UP-TO-DATE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build UP-TO-DATE
+
+> Configure project :
+*** rootBuild afterProject root project 'Plugin'
+*** rootBuild afterEvaluate root project 'Plugin'
+
+> Configure project :app
+*** rootBuild beforeProject project ':app'
+*** rootBuild beforeEvaluate project ':app'
+Warning: The 'kotlin-android-extensions' Gradle plugin is deprecated. Please use this migration guide (https://goo.gle/kotlin-android-extensions-deprecation) to start working with View Binding (https://developer.android.com/topic/libraries/view-binding) and the 'kotlin-parcelize' plugin.
+*** Android Extension start
+*** rootBuild afterProject project ':app'
+*** rootBuild afterEvaluate project ':app'
+sss
+
+> Configure project :plugin
+*** rootBuild beforeProject project ':plugin'
+*** rootBuild beforeEvaluate project ':plugin'
+WARNING: Unsupported Kotlin plugin version.
+The `embedded-kotlin` and `kotlin-dsl` plugins rely on features of Kotlin `1.4.31` that might work differently than in the requested version `1.5.30`.
+*** rootBuild afterProject project ':plugin'
+*** rootBuild afterEvaluate project ':plugin'
+*** settings projectsEvaluated build 'Plugin'
+
+> Task :help
+--- task name help Displays a help message.
+---------------------------------------------------
+
+Welcome to Gradle 7.1.1.
+
+To run a build, run gradlew <task> ...
+
+To see a list of available tasks, run gradlew tasks
+
+To see a list of command-line options, run gradlew --help
+
+To see more detail about a task, run gradlew help --task <task>
+
+For troubleshooting, visit https://help.gradle.org
+*** settings buildFinished Build
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.1.1/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD SUCCESSFUL in 2s
+8 actionable tasks: 1 executed, 7 up-to-date
