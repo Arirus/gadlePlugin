@@ -1,0 +1,29 @@
+{
+  "name": "",
+  "rules": [
+    {
+      "name": "rule1",
+      "exclude": [
+        "kotlinx.android.*"
+      ],
+      "include": [
+        "okhttp3"
+      ],
+      "literally": [
+        "onCreate"
+      ]
+    },
+    {
+      "name": "rule2",
+      "exclude": [
+        "kotlinx.android.*"
+      ],
+      "include": [
+        "okhttp3"
+      ],
+      "functional": [
+        "android/util/Log.i (Ljava/lang/String;Ljava/lang/String;)I"
+      ]
+    }
+  ]
+}

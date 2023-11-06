@@ -1,6 +1,9 @@
-package com.example.buildsrc.model
+package com.example.buildsrc.javacheck
 
-import com.example.buildsrc.javacheck.JavaClassLoader
+import com.example.buildsrc.javacheck.search.AbsSearch
+import com.example.buildsrc.javacheck.search.FunctionSearch
+import com.example.buildsrc.javacheck.search.LiterSearch
+import com.example.buildsrc.javacheck.search.RuleDetail
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.InputFiles
@@ -11,6 +14,12 @@ open class JavaCheckTask : DefaultTask() {
     @InputFiles
     var classSource: FileCollection? = null
 
+    var rules: RuleDetail? = null
+
+    val searchList = listOf<AbsSearch>(
+        LiterSearch(), FunctionSearch()
+    )
+
     @TaskAction
     fun doCheck() {
         println("JavaCheckTask start")
@@ -20,11 +29,8 @@ open class JavaCheckTask : DefaultTask() {
         val result = classLoader.loadClass(classSource)
 
         println("*** ${result.size}")
-        result.forEach{
-            println("***** ${it.key}")
-            it.value.forEach {
-                println("******* ${it.name}")
-            }
+        result.forEach {
+            println("***** ${it.key} ${it.value?.size}")
         }
 
 

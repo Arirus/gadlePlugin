@@ -7,7 +7,7 @@ import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.plugins.AppPlugin
 import com.android.build.gradle.internal.plugins.LibraryPlugin
 import com.example.buildsrc.model.CustomConfigExtension
-import com.example.buildsrc.model.JavaCheckTask
+import com.example.buildsrc.javacheck.JavaCheckTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType

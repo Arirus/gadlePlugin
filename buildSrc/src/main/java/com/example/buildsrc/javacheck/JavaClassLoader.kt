@@ -6,7 +6,7 @@ import org.gradle.api.file.FileCollection
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
-import java.util.Stack
+import java.util.*
 import java.util.jar.JarFile
 
 open class JavaClassLoader() {
@@ -19,11 +19,10 @@ open class JavaClassLoader() {
 //        }
     }
 
-    fun loadClass( classSource: FileCollection?): Map<String, List<CtClass>> {
-        val result = mutableMapOf<String, MutableList<CtClass>>()
+    fun loadClass(classSource: FileCollection?): Map<String, List<CtClass>?> {
+        val result = mutableMapOf<String, MutableList<CtClass>?>()
 
         classSource?.files?.forEach {
-            println("loadClass classSource?.files ${it.name}")
             loadClass(classPool, it, result)
         }
 
@@ -31,7 +30,7 @@ open class JavaClassLoader() {
     }
 
     fun loadClass(
-        classPool: ClassPool, classFile: File, container: MutableMap<String, MutableList<CtClass>>
+        classPool: ClassPool, classFile: File, container: MutableMap<String, MutableList<CtClass>?>
     ) {
         val stack = Stack<File>()
         stack.push(classFile)
@@ -49,7 +48,7 @@ open class JavaClassLoader() {
                     stream = FileInputStream(f);
                     val ctClass = classPool.makeClass(stream)
                     var list = container[f.name]
-                    if (list?.isNullOrEmpty() == true) {
+                    if (list == null) {
                         list = mutableListOf(ctClass)
                         container[f.name] = list
                     } else {
@@ -67,21 +66,18 @@ open class JavaClassLoader() {
     }
 
     private fun loadClass(
-        classPool: ClassPool, jarFile: JarFile, container: MutableMap<String, MutableList<CtClass>>
+        classPool: ClassPool, jarFile: JarFile, container: MutableMap<String, MutableList<CtClass>?>
     ) {
         val entries = jarFile.entries()
-        println("jarFile ${jarFile.name}")
         entries.toList().filter { jarEntry ->
-
             jarEntry.name.endsWith(".class")
         }.forEach { f ->
-            println("jarEntry ${f.name}")
             var stream: InputStream? = null
             try {
                 stream = jarFile.getInputStream(f);
                 val ctClass = classPool.makeClass(stream)
                 var list = container[f.name]
-                if (list?.isNullOrEmpty() == true) {
+                if (list == null) {
                     list = mutableListOf(ctClass)
                     container[f.name] = list
                 } else {
