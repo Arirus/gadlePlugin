@@ -14,9 +14,9 @@ open class JavaCheckTask : DefaultTask() {
     @InputFiles
     var classSource: FileCollection? = null
 
-    var rules: RuleDetail? = null
+    private var rules: RuleDetail? = null
 
-    val searchList = listOf<AbsSearch>(
+    private val searchList = listOf<AbsSearch>(
         LiterSearch(), FunctionSearch()
     )
 
