@@ -43,19 +43,6 @@ android {
     }
 }
 
-gradle.taskGraph.beforeTask { task ->
-
-    println("--- task name ${task.name} ${task.description}")
-
-    task.inputs.files.each { fileTemp -> println 'input file:' + fileTemp.absolutePath
-    }
-
-    println '---------------------------------------------------'
-    task.outputs.files.each { fileTemp -> println 'output file:' + fileTemp.absolutePath
-    }
-
-}
-
 dependencies {
 
     implementation "androidx.appcompat:appcompat:${Env.AppCompat}"
