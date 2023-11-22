@@ -12,17 +12,24 @@ import java.io.File
 // 实例task，有两个功能
 // 1.扫描layout里面的xml 文件，将文件名记录下来。
 // 2.扫描.class 文件，将文件名记录下来
-open class DemoTask:DefaultTask() {
+open class DemoTask : DefaultTask() {
 
     @InputFiles
-    var resSource:FileCollection? = null
+    var resSource: FileCollection? = null
 
     @OutputFile
     var resOutput: File? = null
 
 
+    @InputFiles
+    var classSource: FileCollection? = null
+
+    @OutputFile
+    var classOutput: File? = null
+
+
     @TaskAction
-    fun doAction(){
+    fun doAction() {
 
         println("start")
 

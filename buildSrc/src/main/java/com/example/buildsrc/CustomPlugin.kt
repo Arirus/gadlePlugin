@@ -5,12 +5,11 @@ import com.example.buildsrc.demo.DemoTask
 import com.example.buildsrc.model.CustomConfigExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.provider.Provider
 import java.io.File
 
 class CustomPlugin : Plugin<Project> {
 
-    companion object{
+    companion object {
         const val EX_NAME = "CustomConfig"
     }
 
@@ -24,6 +23,7 @@ class CustomPlugin : Plugin<Project> {
             project.extensions.findByType(AppExtension::class.java)?.applicationVariants?.forEach {
 
                 val resourceTask = it.mergeResourcesProvider.get()
+                val compileTask = it.javaCompileProvider.get()
 //                val resourceTask =project.tasks.findByName("merge${it.name.capitalize()}Resources")
 
 //                resourceTask.outputDir.get().files().files.forEach {
@@ -32,10 +32,21 @@ class CustomPlugin : Plugin<Project> {
 //                resourceTask.outputDir.get().asFileTree.filter { it.absolutePath.contains("/layout") }.files
 
 
-                val task = project.tasks.create("demoTask${it.name.capitalize()}",DemoTask::class.java)
-                task.resOutput= File(project.buildDir.path + "/${it.name}_xml_scan_view/xml_scan_view.txt")
-                task.resSource = project.files(resourceTask.outputDir.get())
-                task.dependsOn(resourceTask)
+                val task =
+                    project.tasks.create("demoTask${it.name.capitalize()}", DemoTask::class.java)
+                task.resSource =
+                    it.allRawAndroidResources.asFileTree.matching{include("**/layout/**") }
+                task.resOutput = File(project.buildDir.path + "/${it.name}_demo_task/xml_scan.txt")
+
+                task.classSource = project.files(
+                    compileTask.classpath,
+                    compileTask.destinationDirectory.get().asFileTree
+                )
+                task.classOutput =
+                    File(project.buildDir.path + "/${it.name}_demo_task/class_scan.txt")
+
+                task.dependsOn(resourceTask, compileTask)
+
             }
         }
     }
