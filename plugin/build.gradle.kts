@@ -34,13 +34,15 @@ dependencies {
 }
 
 
-publishing {
-    publications {
-        create(PluginConfig.ArtifactId, MavenPublication::class.java) {
-            groupId = PluginConfig.GroupId
-            artifactId = PluginConfig.ArtifactId
-            version = PluginConfig.Version
-            from(components["java"])
+afterEvaluate {
+    publishing {
+        publications {
+            create(PluginConfig.ArtifactId, MavenPublication::class.java) {
+                groupId = PluginConfig.GroupId
+                artifactId = PluginConfig.ArtifactId
+                version = PluginConfig.Version
+                from(components["java"])
+            }
         }
     }
 }
