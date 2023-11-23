@@ -35,7 +35,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.30")
     implementation("com.android.tools.build:gradle:7.0.0")
-
+    implementation("com.google.code.gson:gson:2.8.2")
     /* Example Dependency *//* Depend on the kotlin plugin, since we want to access it in our plugin */
     implementation("org.javassist:javassist:3.28.0-GA")/* Depend on the default Gradle API's since we want to build a custom plugin */
     implementation(gradleApi())

@@ -39,7 +39,7 @@ class CustomPlugin : Plugin<Project> {
                 task.resOutput = File(project.buildDir.path + "/${it.name}_demo_task/xml_scan.txt")
 
                 task.classSource = project.files(
-                    compileTask.classpath,
+                    it.getCompileClasspath(null),
                     compileTask.destinationDirectory.get().asFileTree
                 )
                 task.classOutput =
