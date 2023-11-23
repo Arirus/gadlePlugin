@@ -9,6 +9,12 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.api.transform.TransformOutputProvider
 import com.android.build.gradle.internal.pipeline.TransformManager
 import org.apache.commons.io.FileUtils
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.util.jar.JarFile
+import java.util.jar.JarInputStream
+import java.util.jar.JarOutputStream
+import java.util.zip.ZipInputStream
 
 
 class DemoTransform:Transform() {
@@ -47,17 +53,32 @@ class DemoTransform:Transform() {
 
             // 二、输入源为 jar 包类型
             it.jarInputs.forEach { jarInput->
-                //1、TODO 针对 jar 包进行相关处理
-
                 //2、构建输出路径 dest
-                val dest = transformInvocation.outputProvider.getContentLocation(
+                val jarOutput = transformInvocation.outputProvider.getContentLocation(
                     jarInput.name,
                     jarInput.contentTypes,
                     jarInput.scopes,
                     Format.JAR
                 )
+                try {
+                    FileInputStream(jarInput.file).use {fis->
+                        JarInputStream(fis).use {jis->
+
+                            FileOutputStream(jarOutput).use {fos->
+                                JarOutputStream(fos).use {jos->
+                                    jis.nextJarEntry
+                                }
+                            }
+
+                        }
+                    }
+                }catch (e:Exception){
+
+                }
+
+
                 //3、将 jar 包复制给 dest，dest 将会传递给下一个 Transform
-                FileUtils.copyFile(jarInput.file,dest)
+                FileUtils.copyFile(jarInput.file,jarOutput)
             }
         }
 
