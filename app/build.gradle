@@ -15,11 +15,11 @@ greeting {
 
 android {
     println("*** Android Extension start")
-    namespace "xx.xxx.xxx"
+    namespace "com.example.plugin"
     compileSdk 33
 
     defaultConfig {
-        applicationId "xx.xxx.xxx"
+        applicationId "com.example.plugin"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -30,7 +30,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-
+    implementation project(":library")
     implementation "androidx.appcompat:appcompat:${Env.AppCompat}"
     implementation "com.adyen.checkout:drop-in:4.11.0"
     implementation 'com.google.android.material:material:1.2.0'

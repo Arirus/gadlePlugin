@@ -102,3 +102,4 @@ gradle.buildFinished {
     }
     println "执行阶段总耗时：${System.currentTimeMillis() - beginOfTaskExecute} ms"
 }
+include ':library'
