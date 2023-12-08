@@ -5,6 +5,7 @@ apply plugin: 'CustomPlugin'
 
 CustomConfig {
     enable = true
+    incremental = true
 }
 
 apply from: "greeting.gradle"

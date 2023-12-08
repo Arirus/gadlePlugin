@@ -1,6 +1,5 @@
-package com.example.buildsrc.demo
+package com.example.buildsrc.task
 
-import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
@@ -10,10 +9,12 @@ import com.android.build.gradle.internal.plugins.LibraryPlugin
 import com.example.buildsrc.javacheck.JavaCheckTask
 import com.example.buildsrc.model.CustomConfigExtension
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.findByType
+import org.gradle.configurationcache.extensions.capitalized
+import java.io.File
 import java.util.Locale
 
-class OldTask {
+// task适配器，在这里实现 task的注册
+class TaskAdapter {
 
     fun register(project:Project){
         // task 注册
@@ -40,33 +41,59 @@ class OldTask {
 
         val javaCompile = variant.javaCompileProvider.get()
 
+        //android 系统相关aar
 //        extension.bootClasspath.forEach {
 //            println("@@@ bootClasspath ${it}")
 //        }
+        //subproject 编译的classes.jar
+        //R.jar
+        //第三方依赖的jar
+        //主project的 kotlin 编译出的 kotlin-class 文件夹
 //        javaCompile.classpath.files.forEach {
 //            println("@@@ javaCompile Classpath ${it}")
 //        }
+
+        // buildConfig.class
+        // 当前项目的java文件编程成的class
 //        javaCompile.destinationDirectory.asFileTree.files.forEach {
 //            println("@@@ javaCompile destinationDirectory ${it}")
 //        }
+
+        //除了上面的 destinationDirectory 还有ap_generated_sources/debug/out 等 可以忽略这个文件夹
 //        javaCompile.outputs.files.forEach {
 //            println("@@@ javaCompile outputs ${it}")
 //        }
 
+        // 所有参与编译的 class 文件
         val classSource = project.files(
             extension.bootClasspath, javaCompile.classpath, javaCompile.destinationDirectory
         )
 
-        val task = project.tasks.create("javaCheck${variant.name.toUpperCase(Locale.ROOT)}", JavaCheckTask::class.java) {
-            this.classSource = classSource
-        }
+        //注册非/增量任务
+        val task =
+            when(configExtension.incremental){
+                true ->{
+                    project.tasks.create("demoInscrTask${variant.name.capitalized()}", DemoInscrTask::class.java){
+                        this.classSource = classSource
+                        this.diff = java.io.File(project.buildDir, "demoInscrTask.txt")
+                    }
+                }
+                else->{
+                    project.tasks.create("demoTask${variant.name.capitalized()}", DemoTask::class.java){
+                        this.classSource = classSource
+                        this.diff = File(project.buildDir,"demoInscrTask.txt")
+                    }
+                }
+            }
+
+
 
         // 依赖 javaCompile
         task.mustRunAfter(javaCompile)
         task.dependsOn(javaCompile)
 
         // 依赖 assemble
-//        variant.assembleProvider.get().dependsOn(task)
+        variant.assembleProvider.get().dependsOn(task)
     }
 
 }
