@@ -4,8 +4,20 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'CustomPlugin'
 
 CustomConfig {
-    enable = true
-    incremental = true
+    enable true
+
+    incremental true
+
+    config file("./build.gradle")
+
+    items["111",
+            "222",
+            "333",]
+
+    customItem {
+        name = "dsds"
+        enable = false
+    }
 }
 
 apply from: "greeting.gradle"
